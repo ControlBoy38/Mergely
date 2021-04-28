@@ -1,12 +1,25 @@
 "use strict";
 
-(function(jQuery, CodeMirror) {
+class Timer {
+	static start() {
+		Timer.t0 = Date.now();
+	}
+
+	static stop() {
+		var t1 = Date.now();
+		var td = t1 - Timer.t0;
+		Timer.t0 = t1;
+		return td;
+	}
+}
+
+(function( window, document, jQuery, CodeMirror ){
 
 var Mgly = {};
 
-Mgly.ChangeExpression = new RegExp(/(^(?![><\-])*\d+(?:,\d+)?)([acd])(\d+(?:,\d+)?)/);
+Timer.t0 = 0;
 
-const Timer = require('./Timer');
+Mgly.ChangeExpression = new RegExp(/(^(?![><\-])*\d+(?:,\d+)?)([acd])(\d+(?:,\d+)?)/);
 
 Mgly.DiffParser = function(diff) {
 	var changes = [];
@@ -1797,4 +1810,4 @@ jQuery.pluginMaker = function(plugin) {
 // make the mergely widget
 jQuery.pluginMaker(Mgly.mergely);
 
-})(require('jquery'), require('CodeMirror'));
+})( window, document, jQuery, CodeMirror );
